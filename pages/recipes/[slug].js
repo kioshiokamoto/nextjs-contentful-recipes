@@ -1,7 +1,12 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { createClient } from 'contentful';
+import { redirect } from 'next/dist/next-server/server/api-utils';
 import Image from 'next/image';
+import Skeleton from '../../components/Skeleton';
 export default function RecipeDetails({ recipe }) {
+	if(!recipe){
+		return <Skeleton />
+	}
 	const { featuredImage, title, cookingTime, ingredients, method } = recipe.fields;
 	console.log(featuredImage);
 	return (
@@ -71,7 +76,7 @@ export const getStaticPaths = async () => {
 	});
 	return {
 		paths,
-		fallback: false,
+		fallback: true,
 	};
 };
 
@@ -80,9 +85,18 @@ export async function getStaticProps({ params }) {
 		content_type: 'recipe',
 		'fields.slug': params.slug,
 	});
+	if(!items.length){
+		return {
+			redirect:{
+				destination:'/',
+				permanent: false
+			}
+		}
+	}
 	return {
 		props: {
 			recipe: items[0],
+			revalidate: 1 //Validara cada segundo
 		},
 	};
 }
