@@ -1,6 +1,5 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { createClient } from 'contentful';
-import { redirect } from 'next/dist/next-server/server/api-utils';
 import Image from 'next/image';
 import Skeleton from '../../components/Skeleton';
 export default function RecipeDetails({ recipe }) {
