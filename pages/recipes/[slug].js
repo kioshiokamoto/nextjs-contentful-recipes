@@ -7,7 +7,6 @@ export default function RecipeDetails({ recipe }) {
 		return <Skeleton />
 	}
 	const { featuredImage, title, cookingTime, ingredients, method } = recipe.fields;
-	console.log(featuredImage);
 	return (
 		<div>
 			<div className="banner">
